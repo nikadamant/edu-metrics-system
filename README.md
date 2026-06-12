@@ -1,6 +1,6 @@
 # Educational Telemetry & Proctoring Metrics System (edu-metrics-system)
 
-An automated web-based platform designed for non-invasive passive proctoring and academic integrity evaluation during online examinations. The system captures client-side behavior anomalies using standard web APIs, processes metrics via a mathematical risk model, and provides educators with an analytical dashboard for session auditing.
+An automated web-based platform designed for proctoring and academic integrity evaluation during online examinations. The system captures client-side behavior anomalies using standard web APIs, processes metrics via a mathematical model, and provides anomaly coefficient with an analytical dashboard for session auditing.
 
 ## Architecture Overview
 
@@ -38,7 +38,7 @@ Follow these steps to initialize and run the ecosystem locally.
 ### 1. Repository Setup
 Clone the repository and navigate to the project root:
 ```bash
-git clone [https://github.com/YOUR_USERNAME/edu-metrics-system.git](https://github.com/YOUR_USERNAME/edu-metrics-system.git)
+git clone https://github.com/nikadamant/edu-metrics-system.git
 cd edu-metrics-system
 ```
 ### 2. Backend Configuration & Launch
@@ -56,7 +56,7 @@ MONGO_URI=mongodb://localhost:27017/proctoring_db
 JWT_SECRET=your_secure_jwt_secret_token
 ```
 
-To seed the database with initialization tests and user scopes, run:
+To seed the database with initialization tests, run:
 
 ```bash
 npm run seed
