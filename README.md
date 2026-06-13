@@ -48,24 +48,24 @@ Navigate to the server directory, install dependencies, and start the REST servi
 cd server
 npm install
 ```
-Create a .env file inside the server/ directory if you need to override defaults:
+Create a .env file inside the server/ directory **if you need to override defaults:**
 
 ```bash
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/proctoring_db
+MONGO_URI=mongodb://localhost:27017/edu_metrics_db
 JWT_SECRET=your_secure_jwt_secret_token
 ```
 
 To seed the database with initialization tests, run:
 
 ```bash
-npm run seed
+node seed
 ```
 
 Start the server:
 
 ```bash
-npm start
+node index.js
 ```
 
 The backend will operate on http://localhost:5000.
