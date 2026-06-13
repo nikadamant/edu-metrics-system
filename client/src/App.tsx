@@ -1,9 +1,30 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import api from './api/axios';
 import TestPage from './pages/TestPage';
 import Dashboard from './pages/Dashboard';
 
 function Home() {
-  const sampleTestId = "6a2c09eb517b86d20db416e5";
+  const [testId, setTestId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchAvailableTest = async () => {
+      try {
+        const response = await api.get<{ _id: string; title: string }[]>('/tests');
+        
+        if (response.data && response.data.length > 0) {
+          setTestId(response.data[0]._id);
+        }
+      } catch (error) {
+        console.error('Error fetching available test mappings:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAvailableTest();
+  }, []);
 
   return (
     <div style={{ maxWidth: '900px', margin: '40px auto', padding: '0 20px', textAlign: 'center', fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif', boxSizing: 'border-box' }}>
@@ -21,11 +42,22 @@ function Home() {
         <div style={{ padding: '30px', border: '1px solid #b3d7ff', borderRadius: '12px', backgroundColor: '#f4f9ff', flex: '1 1 350px', boxSizing: 'border-box', boxShadow: '0 4px 6px rgba(0,0,0,0.02)' }}>
           <h3 style={{ color: '#0056b3', marginTop: 0, fontSize: '18px' }}>Student Portal</h3>
           <p style={{ color: '#555', minHeight: '45px', fontSize: '14px', lineHeight: '1.4' }}>Take examinations under session integrity tracking.</p>
-          <Link to={`/test/${sampleTestId}`}>
-            <button style={{ padding: '12px 25px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}>
-              Start Examination
+          
+          {loading ? (
+            <button disabled style={{ padding: '12px 25px', backgroundColor: '#b3d7ff', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'not-allowed', fontWeight: 600, fontSize: '14px' }}>
+              Loading Exam...
             </button>
-          </Link>
+          ) : testId ? (
+            <Link to={`/test/${testId}`}>
+              <button style={{ padding: '12px 25px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}>
+                Start Examination
+              </button>
+            </Link>
+          ) : (
+            <button disabled style={{ padding: '12px 25px', backgroundColor: '#dc3545', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'not-allowed', fontWeight: 600, fontSize: '14px' }}>
+              No Tests Found (Run Seed)
+            </button>
+          )}
         </div>
 
         {/* Teacher Section */}
